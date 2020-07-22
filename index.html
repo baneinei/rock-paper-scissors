@@ -45,11 +45,25 @@
     }
 
     function game() {
+        let player_wins = 0;
+        let computer_wins = 0;
         for (let i = 0 ; i < 5 ; i++) {
             let player_selection = prompt();
             let computer_selection = computer_play();
             let round_result = play_round(player_selection,computer_selection);
             console.log(round_result);
+            if (round_result.indexOf("win") != -1){
+                player_wins++;
+            }
+            else {
+                computer_wins++;
+            }
+        }
+        if (player_wins > computer_wins) {
+            console.log(`player wins! ${player_wins} to ${computer_wins}`);
+        }
+        else {
+            console.log(`computer wins! ${computer_wins} to ${player_wins}`);
         }
     }
     game();
