@@ -1,0 +1,59 @@
+<script>
+    function computer_play() {
+        let random_num = Math.floor(Math.random()*3);
+        console.log(random_num);
+        if (random_num == 0) {
+            return "rock";
+        }
+        else if (random_num == 1) {
+            return "paper";
+        }
+        else if (random_num == 2) {
+            return "scissors";
+        }
+        else {
+            return "";
+        }
+    }
+
+    function play_round(player_selection,computer_selection) {
+        player_selection = player_selection.toLowerCase();
+        if (player_selection == "rock") {
+            if (computer_selection == "paper") {
+                return "you lose! paper beats rock.";
+            }
+            else {
+                return "you win! rock beats scissors!";
+            }
+        }
+        else if (player_selection == "paper") {
+            if (computer_selection == "rock") {
+                return "you win! paper beats rock.";
+            }
+            else {
+                return "you lose! scissors beats paper!";
+            }
+        }
+        else if (player_selection == "scissors") {
+            if (computer_selection == "rock") {
+                return "you lose! rock beats scissors.";
+            }
+            else {
+                return "you win! scissors beat rock.";
+            }
+        }
+    }
+
+    function game() {
+        for (let i = 0 ; i < 5 ; i++) {
+            let player_selection = prompt();
+            let computer_selection = computer_play();
+            let round_result = play_round(player_selection,computer_selection);
+            console.log(round_result);
+        }
+    }
+    game();
+    
+
+    
+</script>
