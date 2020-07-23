@@ -15,10 +15,10 @@
                 <div id="player_score">0</div>
             </div>
             <div class="move" id="player_move">
-                <img width="240px" height="240px" src="rock_left.PNG" alt="">
+                <img width="240px" height="240px" src="images/rock_left.PNG" alt="">
             </div>
             <div class="move" id="computer_move">
-                <img width="240px" height="240px" src="rock_right.PNG" alt="">
+                <img width="240px" height="240px" src="images/rock_right.PNG" alt="">
             </div>
 
             <div class="game_contender" id="computer">
@@ -90,8 +90,8 @@
                 }
             }
             function update_move_images(player_selection,computer_selection) {
-                document.querySelector("#player_move").querySelector("img").src = player_selection + "_left.PNG";
-                document.querySelector("#computer_move").querySelector("img").src = computer_selection + "_right.PNG";
+                document.querySelector("#player_move").querySelector("img").src = "images/" + player_selection + "_left.PNG";
+                document.querySelector("#computer_move").querySelector("img").src = "images/" + computer_selection + "_right.PNG";
             }
             
             let player_wins = 0;
