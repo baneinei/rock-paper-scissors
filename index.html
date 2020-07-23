@@ -1,73 +1,160 @@
-<script>
-    function computer_play() {
-        let random_num = Math.floor(Math.random()*3);
-        console.log(random_num);
-        if (random_num == 0) {
-            return "rock";
-        }
-        else if (random_num == 1) {
-            return "paper";
-        }
-        else if (random_num == 2) {
-            return "scissors";
-        }
-        else {
-            return "";
-        }
-    }
+<html>
+    <head>
+        <title>
 
-    function play_round(player_selection,computer_selection) {
-        player_selection = player_selection.toLowerCase();
-        if (player_selection == "rock") {
-            if (computer_selection == "paper") {
-                return "you lose! paper beats rock.";
-            }
-            else {
-                return "you win! rock beats scissors!";
-            }
-        }
-        else if (player_selection == "paper") {
-            if (computer_selection == "rock") {
-                return "you win! paper beats rock.";
-            }
-            else {
-                return "you lose! scissors beats paper!";
-            }
-        }
-        else if (player_selection == "scissors") {
-            if (computer_selection == "rock") {
-                return "you lose! rock beats scissors.";
-            }
-            else {
-                return "you win! scissors beat rock.";
-            }
-        }
-    }
+        </title>
+        <link rel="stylesheet" href="main.css">
+        <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
 
-    function game() {
-        let player_wins = 0;
-        let computer_wins = 0;
-        for (let i = 0 ; i < 5 ; i++) {
-            let player_selection = prompt();
-            let computer_selection = computer_play();
-            let round_result = play_round(player_selection,computer_selection);
-            console.log(round_result);
-            if (round_result.indexOf("win") != -1){
-                player_wins++;
-            }
-            else {
-                computer_wins++;
-            }
-        }
-        if (player_wins > computer_wins) {
-            console.log(`player wins! ${player_wins} to ${computer_wins}`);
-        }
-        else {
-            console.log(`computer wins! ${computer_wins} to ${player_wins}`);
-        }
-    }
-    game();
-    
+    </head>
+    <body>
+        <div id="winner"><p></p></div>
+        <div id="scoreboard">
+            <div class="game_contender" id="player">
+                <p>Player</p> 
+                <div id="player_score">0</div>
+            </div>
+            <div class="move" id="player_move">
+                <img width="240px" height="240px" src="rock_left.PNG" alt="">
+            </div>
+            <div class="move" id="computer_move">
+                <img width="240px" height="240px" src="rock_right.PNG" alt="">
+            </div>
 
-    
-</script>
+            <div class="game_contender" id="computer">
+                <p>Computer</p> 
+                <div id="computer_score">0</div>
+            </div>
+        </div>
+        <div id="buttons">
+            <button class="game_button" id="btn_rock" value="rock">Rock</button>
+            <button class="game_button" id="btn_paper" value="paper">Paper</button>
+            <button class="game_button" id="btn_scissors" value="scissors">Scissors</button>
+        </div>
+        
+
+        
+
+        <script>
+            function computer_play() {
+                let random_num = Math.floor(Math.random()*3);
+                console.log(random_num);
+                if (random_num == 0) {
+                    return "rock";
+                }
+                else if (random_num == 1) {
+                    return "paper";
+                }
+                else if (random_num == 2) {
+                    return "scissors";
+                }
+                else {
+                    return "";
+                }
+            }
+        
+            function play_round(player_selection,computer_selection) {
+                player_selection = player_selection.toLowerCase();
+                if (player_selection == "rock") {
+                    if (computer_selection == "paper") {
+                        return "you lose! paper beats rock.";
+                    }
+                    else if(computer_selection == "scissors"){
+                        return "you win! rock beats scissors!";
+                    }
+                    else {
+                        return "draw! rock vs rock";
+                    }
+                }
+                else if (player_selection == "paper") {
+                    if (computer_selection == "rock") {
+                        return "you win! paper beats rock.";
+                    }
+                    else if (computer_selection == "scissors") {
+                        return "you lose! scissors beats paper!";
+                    }
+                    else {
+                        return "draw! paper vs paper";
+                    }
+                }
+                else if (player_selection == "scissors") {
+                    if (computer_selection == "rock") {
+                        return "you lose! rock beats scissors.";
+                    }
+                    else if (computer_selection == "paper") {
+                        return "you win! scissors beat paper.";
+                    }
+                    else {
+                        return "draw! scissors vs scissors.";
+                    }
+                }
+            }
+            function update_move_images(player_selection,computer_selection) {
+                document.querySelector("#player_move").querySelector("img").src = player_selection + "_left.PNG";
+                document.querySelector("#computer_move").querySelector("img").src = computer_selection + "_right.PNG";
+            }
+            
+            let player_wins = 0;
+            let computer_wins = 0;
+            function update_scores() {
+                document.querySelector("#player").querySelector("#player_score").textContent = player_wins;
+                document.querySelector("#computer").querySelector("#computer_score").textContent = computer_wins;
+            }
+            let game_over = false;
+            function game(player_selection) {
+                
+                
+                if (!game_over) {
+                    let computer_selection = computer_play();
+                    let round_result = play_round(player_selection,computer_selection);
+                    display_winner(round_result);
+                    update_move_images(player_selection,computer_selection);
+                    if (round_result.indexOf("win") != -1){
+                        player_wins++;
+                    }
+                    else if (round_result.indexOf("lose") != -1) {
+                        computer_wins++;
+                    }     
+                    update_scores();
+                }
+
+
+                if (player_wins + computer_wins == 5) {
+                    game_over = true;
+                    if (player_wins > computer_wins) {
+                        display_winner(`player wins! ${player_wins} to ${computer_wins}`);
+                    }
+                    else {
+                        display_winner(`computer wins! ${computer_wins} to ${player_wins}`);
+                    }
+                }
+            }
+
+            function display_winner(winner_str) {
+                let target_div = document.querySelector("#winner");
+                target_div.querySelector("p").textContent = winner_str;
+
+            }
+            
+            const game_buttons = document.querySelectorAll(".game_button");
+            game_buttons.forEach((button) => {
+
+                button.addEventListener("click", () => {
+                    let player_selection = button.getAttribute("value");
+                    game(player_selection); 
+                });
+
+            });
+
+
+
+            /*document.querySelector("#btn_rock").addEventListener("click", () => {
+                play_round(player_selection,computer_selection);
+            });*/
+        
+            
+        </script>
+    </body>
+</html>
+
+
